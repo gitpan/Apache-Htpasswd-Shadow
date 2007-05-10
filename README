@@ -1,0 +1,90 @@
+NAME
+    Apache::Htpasswd::Shadow - Apache::Htpasswd variant that saves to a
+    different file
+
+DESCRIPTION
+    The Apache::Htpasswd provides an interface to Apache *.htpasswd*-style
+    files.
+
+    However, it saves changes to the .htpasswd file directly, which assumes
+    that you actually have write permission to the file.
+
+    In many cases, particularly when modifying accounts from a web interface
+    on that same Apache instance, you would never want the web user to have
+    the sort of permissions needed to change the file.
+
+    In these cases, it is instead preferred to have the web user write to a
+    "shadow" version of the .htpasswd file. This shadow version is then
+    examined and copied into place by a process with suitable permissions
+    that is trigged by the web user, or runs at regular intervals.
+
+    The Apache::Htpasswd::Shadow module implements this concept.
+
+METHODS
+    With the exception of the additional new parameter, the interface for
+    Apache::Htpasswd::Shadow is identical to Apache::Htpasswd. See that
+    module for interface documentation.
+
+  new
+      # Single-param version
+      $htpasswd = Apache::Htpasswd::Shadow->new("name-of-file");
+  
+      # Multiple-param version
+      $htpasswd = Apache::Htpasswd::Shadow->new({
+              passwdFile => 'name-of-file',
+              shadowFile => 'name-of-shadow-file',
+              ReadOnly   => 1,
+              UseMD5     => 1,
+       } );
+
+    The new constructor takes the same parameters in the same way as the
+    regular Apache::Htpasswd new constructor.
+
+    The one exception is that it allows you to pass the additional named
+    parameter shadowFile to explicitly specify the name of the shadow file.
+    If not provided, the default shadow file name is the same as the
+    passwdFile value, but with '.new' appended.
+
+SUPPORT
+    This module is stored in an Open Repository at the following address.
+
+    <http://svn.ali.as/cpan/trunk/Apache-Htpasswd-Shadow>
+
+    Write access to the repository is made available automatically to any
+    other CPAN author, and to most other volunteers on request.
+
+    If you are able to submit your bug report in the form of new (failing)
+    unit tests, or can apply your fix directly instead of submitting a
+    patch, you are strongly encouraged to do so as the author currently
+    maintains over 100 modules and it can take some time to deal with
+    non-critical bug reports or patches.
+
+    This will also guarentee that your issue will be addressed in the next
+    release of the module (since my release automation won't let me release
+    a module with broken tests) :)
+
+    If you cannot provide a direct test or fix, or don't have time to do so,
+    then regular bug reports are still accepted and appreciated via the CPAN
+    bug tracker.
+
+    <http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Module-Inspector>
+
+    For other issues, for commercial enhancement or support, or to have your
+    write access enabled for the repository, contact the author at the email
+    address below.
+
+AUTHOR
+    Adam Kennedy <adamk@cpan.org>
+
+SEE ALSO
+    Apache::Htpasswd
+
+COPYRIGHT
+    Copyright 2007 Adam Kennedy.
+
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+    The full text of the license can be found in the LICENSE file included
+    with this module.
+
